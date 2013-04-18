@@ -109,8 +109,8 @@ body {
 	border-top-right-radius: 1px;
 }
 
-#new-todo,
-.edit {
+#new-todo, #new-todo-owner,
+.edit-title, .edit-owner {
 	position: relative;
 	margin: 0;
 	width: 100%;
@@ -135,7 +135,7 @@ body {
 	font-smoothing: antialiased;
 }
 
-#new-todo {
+#new-todo, #new-todo-owner {
 	padding: 16px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.02);
@@ -194,7 +194,8 @@ label[for='toggle-all'] {
 	padding: 0;
 }
 
-#todo-list li.editing .edit {
+#todo-list li.editing .edit-title, 
+#todo-list li.editing .edit-owner {
 	display: block;
 	width: 506px;
 	padding: 13px 17px 12px 17px;
@@ -291,7 +292,7 @@ label[for='toggle-all'] {
 	display: block;
 }
 
-#todo-list li .edit {
+#todo-list li .edit-title, #todo-list li .edit-owner {
 	display: none;
 }
 

@@ -11,6 +11,7 @@
 			<header id="header">
 				<h1>todos</h1>
 				<input id="new-todo" placeholder="What needs to be done?" autofocus>
+				<input id="new-todo-owner" placeholder="And who's to do it?">
 			</header>
 			<section id="main">
 				<input id="toggle-all" type="checkbox">
@@ -28,9 +29,11 @@
 			<div class="view">
 				<input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
 				<label><%- title %></label>
+				<label>Responsibility of: <%- owner %></label>
 				<button class="destroy"></button>
 			</div>
-			<input class="edit" value="<%- title %>">
+			<input class="edit-title" value="<%- title %>">
+			<input class="edit-owner" value="<%- owner %>">
 		</script>
 		<script type="text/template" id="stats-template">
 			<span id="todo-count"><strong><%= remaining %></strong> <%= remaining === 1 ? 'item' : 'items' %> left</span>

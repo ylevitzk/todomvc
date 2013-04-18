@@ -9,6 +9,7 @@ var app = app || {};
 
 	// The DOM element for a todo item...
 	app.TodoView = Backbone.View.extend({
+	
 		//... is a list tag.
 		tagName:  'li',
 
@@ -17,11 +18,11 @@ var app = app || {};
 
 		// The DOM events specific to an item.
 		events: {
-			'click .toggle': 'toggleCompleted',
-			'dblclick label': 'edit',
-			'click .destroy': 'clear',
-			'keypress .edit': 'updateOnEnter',
-			'blur .edit': 'close'
+			'click .toggle' 	   : 'toggleCompleted',
+			'dblclick label'       : 'edit',
+			'click .destroy'       : 'clear',
+			'keypress .edit-title' : 'updateOnEnter',
+			'keypress .edit-owner' : 'updateOnEnter'
 		},
 
 		// The TodoView listens for changes to its model, re-rendering. Since there's
@@ -33,12 +34,13 @@ var app = app || {};
 			this.listenTo(this.model, 'visible', this.toggleVisible);
 		},
 
-		// Re-render the titles of the todo item.
+		// Re-render the titles and owners of the todo item.
 		render: function () {
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
 			this.toggleVisible();
-			this.$input = this.$('.edit');
+			this.$titleInput = this.$('.edit-title');
+			this.$ownerInput = this.$('.edit-owner');
 			return this;
 		},
 
@@ -61,20 +63,31 @@ var app = app || {};
 
 		// Switch this view into `"editing"` mode, displaying the input field.
 		edit: function () {
+			console.log(this.$el.attr('class'));
 			this.$el.addClass('editing');
-			this.$input.focus();
+			console.log(this.$el.attr('class'));
+			this.$titleInput.focus();
+			this.$ownerInput.focus();
 		},
 
 		// Close the `"editing"` mode, saving changes to the todo.
 		close: function () {
-			var value = this.$input.val().trim();
-
-			if (value) {
-				this.model.save({ title: value });
+			var titleValue = this.$titleInput.val().trim();
+			var ownerValue = this.$ownerInput.val().trim();
+			
+			if (titleValue && ownerValue) {
+				this.model.save({ 
+					title: titleValue, 
+					owner: ownerValue
+				});
+			} 
+			else if (titleValue) {
+				this.model.save({ 
+					title: titleValue 
+				});
 			} else {
 				this.clear();
 			}
-
 			this.$el.removeClass('editing');
 		},
 

@@ -21,6 +21,7 @@ var app = app || {};
 		// Delegated events for creating new items, and clearing completed ones.
 		events: {
 			'keypress #new-todo': 'createOnEnter',
+			'keypress #new-todo-owner': 'createOnEnter',
 			'click #clear-completed': 'clearCompleted',
 			'click #toggle-all': 'toggleAllComplete'
 		},
@@ -30,7 +31,8 @@ var app = app || {};
 		// loading any preexisting todos that might be saved in *localStorage*.
 		initialize: function () {
 			this.allCheckbox = this.$('#toggle-all')[0];
-			this.$input = this.$('#new-todo');
+			this.$titleInput = this.$('#new-todo');
+			this.$ownerInput = this.$('#new-todo-owner');
 			this.$footer = this.$('#footer');
 			this.$main = this.$('#main');
 
@@ -94,7 +96,8 @@ var app = app || {};
 		// Generate the attributes for a new Todo item.
 		newAttributes: function () {
 			return {
-				title: this.$input.val().trim(),
+				title: this.$titleInput.val().trim(),
+				owner: this.$ownerInput.val().trim(),
 				order: app.Todos.nextOrder(),
 				completed: false
 			};
@@ -103,12 +106,13 @@ var app = app || {};
 		// If you hit return in the main input field, create new **Todo** model,
 		// persisting it to *localStorage*.
 		createOnEnter: function (e) {
-			if (e.which !== ENTER_KEY || !this.$input.val().trim()) {
+			if (e.which !== ENTER_KEY || !this.$titleInput.val().trim()) {
 				return;
 			}
-
+			
 			app.Todos.create(this.newAttributes());
-			this.$input.val('');
+			this.$titleInput.val('');
+			this.$ownerInput.val('');
 		},
 
 		// Clear all completed todo items, destroying their models.
